@@ -1,0 +1,160 @@
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  name      String?
+  password  String   // Hashed password
+  role      String   @default("CUSTOMER") // "CUSTOMER" or "ADMIN"
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  letters   Letter[]
+  orders    Order[]
+  reviews   Review[]
+}
+
+model Recipient {
+  id          String   @id @default(uuid())
+  name        String
+  phone       String
+  address     String
+  city        String
+  state       String
+  pinCode     String
+  createdAt   DateTime @default(now())
+}
+
+model Letter {
+  id             String             @id @default(uuid())
+  userId         String?
+  user           User?              @relation(fields: [userId], references: [id])
+  occasion       String             // Love, Birthday, Anniversary, etc.
+  content        String             // Rich text/plain text content
+  fontFamily     String             // Classic, Handwritten, Elegant, Modern
+  fontSize       String             // Normal, Large
+  alignment      String             // left, center, right
+  paperStyle     String             // Classic, Vintage, Royal, etc.
+  envelopeStyle  String             // Classic, Vintage, Premium, Custom
+  photoUrl       String?            // Optional image upload (base64 or path)
+  signatureUrl   String?            // Optional signature (base64 or text)
+  isHandwritten  Boolean            @default(false)
+  handwritingStyle String?          // Handwriting Style selection
+  order          Order?
+  createdAt      DateTime           @default(now())
+}
+
+model Order {
+  id             String        @id @default(uuid())
+  trackingId     String        @unique // Format: PHX-IN-2026-XXXXXX
+  userId         String?
+  user           User?         @relation(fields: [userId], references: [id])
+  letterId       String        @unique
+  letter         Letter        @relation(fields: [letterId], references: [id], onDelete: Cascade)
+  recipientName  String
+  recipientPhone String
+  recipientAddress String
+  recipientCity  String
+  recipientState String
+  recipientPinCode String
+  deliveryMethod String        // PIGEON, EXPRESS, DIGITAL
+  giftWrapping   Boolean       @default(false)
+  giftMessage    String?
+  totalAmount    Float
+  status         String        @default("PENDING") // PENDING, PREPARING, PERSONALIZED, READY_FOR_DISPATCH, PIGEON_ASSIGNED, FLYING, OUT_FOR_DELIVERY, DELIVERED, FAILED
+  paymentId      String?       @unique
+  payment        Payment?      @relation(fields: [paymentId], references: [id])
+  pigeonId       String?
+  pigeon         Pigeon?       @relation(fields: [pigeonId], references: [id])
+  trackingEvents TrackingEvent[]
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+}
+
+model Payment {
+  id            String   @id @default(uuid())
+  amount        Float
+  method        String   // UPI, CARD, NETBANKING
+  status        String   // PENDING, SUCCESSFUL, FAILED, REFUNDED
+  razorpayId    String?  @unique
+  invoiceNumber String?  @unique
+  createdAt     DateTime @default(now())
+  order         Order?
+}
+
+model PhoenixStation {
+  id          String   @id @default(uuid())
+  name        String   @unique
+  city        String
+  state       String
+  pinCodes    String   // Comma-separated list of served PIN codes
+  radiusKm    Float
+  isActive    Boolean  @default(true)
+  pigeons     Pigeon[]
+  createdAt   DateTime @default(now())
+}
+
+model Pigeon {
+  id             String          @id @default(uuid())
+  name           String
+  stationId      String
+  station        PhoenixStation  @relation(fields: [stationId], references: [id])
+  status         String          @default("AVAILABLE") // AVAILABLE, RESTING, ASSIGNED, TRAINING, SICK
+  healthStatus   String          @default("Excellent")
+  maxRangeKm     Float           @default(50.0)
+  totalFlights   Int             @default(0)
+  lastRestStart  DateTime?
+  orders         Order[]
+  createdAt      DateTime        @default(now())
+}
+
+model TrackingEvent {
+  id          String   @id @default(uuid())
+  orderId     String
+  order       Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  status      String
+  title       String
+  description String
+  createdAt   DateTime @default(now())
+}
+
+model Coupon {
+  id         String    @id @default(uuid())
+  code       String    @unique
+  type       String    // PERCENTAGE, FIXED
+  value      Float
+  minAmount  Float     @default(0.0)
+  expiresAt  DateTime?
+  isActive   Boolean   @default(true)
+}
+
+model Review {
+  id         String   @id @default(uuid())
+  userId     String?
+  user       User?    @relation(fields: [userId], references: [id])
+  userName   String
+  rating     Int
+  content    String
+  photoUrl   String?
+  isFeatured Boolean  @default(false)
+  createdAt  DateTime @default(now())
+}
+
+model Pricing {
+  id             String @id @default(uuid())
+  itemKey        String @unique // e.g. "base_digital", "base_classic", "pigeon_delivery", "handwriting_service"
+  displayName    String
+  priceInINR     Float
+}
+
+model SystemSetting {
+  id          String @id @default(uuid())
+  key         String @unique // e.g. "global_weather_override", "pigeon_welfare_max_daily_flights"
+  value       String
+}

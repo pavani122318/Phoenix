@@ -1,0 +1,131 @@
+@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=IM+Fell+English:ital@0;1&family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --color-parchment-50: #fdfcf9;
+  --color-parchment-100: #faf7ef;
+  --color-parchment-200: #f5eedc;
+  --color-parchment-300: #ebdcb9;
+  --color-parchment-800: #6b5a3e;
+  --color-parchment-900: #4a3e29;
+  
+  --color-terracotta-50: #fdf5f3;
+  --color-terracotta-500: #c2593f;
+  --color-terracotta-600: #a94830;
+  --color-terracotta-700: #883925;
+  
+  --color-phoenix-indigo: #1a2a4a;
+  --color-phoenix-navy: #0e1726;
+  --color-phoenix-gold: #cca662;
+  --color-phoenix-gold-dark: #b8914b;
+  --color-phoenix-forest: #233b27;
+  
+  --font-sans: "Inter", system-ui, sans-serif;
+  --font-serif: "Playfair Display", Georgia, serif;
+  --font-vintage: "IM Fell English", Georgia, serif;
+  --font-handwritten: "Caveat", cursive;
+  
+  --animate-float: float 4s ease-in-out infinite;
+  --animate-flap: flap 0.5s ease-in-out infinite alternate;
+  --animate-draw: draw 2s ease-out forwards;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-8px) rotate(1deg); }
+}
+
+@keyframes flap {
+  0% { transform: scaleY(0.9) rotate(-3deg); }
+  100% { transform: scaleY(1.1) rotate(3deg); }
+}
+
+@keyframes draw {
+  to { stroke-dashoffset: 0; }
+}
+
+/* Custom Styles */
+
+body {
+  background-color: #faf7ef; /* Default parchment 100 */
+  color: #1a2a4a; /* Phoenix Indigo */
+  font-family: var(--font-sans);
+}
+
+/* Parchment paper textured background */
+.parchment-texture {
+  background-color: #faf7ef;
+  background-image: 
+    radial-gradient(circle at 50% 50%, rgba(250, 247, 239, 0) 0%, rgba(235, 220, 185, 0.15) 100%),
+    url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.04' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.08'/%3E%3C/svg%3E");
+}
+
+.parchment-texture-dark {
+  background-color: #f5eedc;
+  background-image: 
+    radial-gradient(circle at 50% 50%, rgba(245, 238, 220, 0) 0%, rgba(220, 200, 150, 0.25) 100%),
+    url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.05' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.12'/%3E%3C/svg%3E");
+}
+
+/* Glassmorphism parchment cards */
+.glass-parchment {
+  background: rgba(253, 252, 249, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(204, 166, 98, 0.2);
+}
+
+/* Vintage copper buttons and accents */
+.vintage-btn {
+  background: linear-gradient(135deg, #c2593f 0%, #a94830 100%);
+  color: #fdfcf9;
+  border: 1px solid #883925;
+  box-shadow: 0 4px 6px -1px rgba(194, 89, 63, 0.2), 0 2px 4px -2px rgba(194, 89, 63, 0.1);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.vintage-btn:hover {
+  background: linear-gradient(135deg, #a94830 0%, #883925 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 12px -2px rgba(194, 89, 63, 0.3), 0 3px 6px -3px rgba(194, 89, 63, 0.2);
+}
+
+.vintage-btn-secondary {
+  background: transparent;
+  color: #c2593f;
+  border: 1px solid rgba(194, 89, 63, 0.4);
+  transition: all 0.2s;
+}
+
+.vintage-btn-secondary:hover {
+  background: rgba(194, 89, 63, 0.05);
+  border-color: #c2593f;
+}
+
+/* Custom Deckled Border Style */
+.deckled-border {
+  border: 10px solid transparent;
+  border-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='30' height='30' viewBox='0 0 30 30'%3E%3Cpath d='M0 0 L10 5 L20 2 L30 10 L25 20 L30 30 L20 25 L10 28 L0 20 Z' fill='none' stroke='%23cca662' stroke-width='1' opacity='0.3'/%3E%3C/svg%3E") 10 repeat;
+}
+
+/* Vintage Post Stamps and Wax Seals */
+.wax-seal {
+  background: radial-gradient(circle at 35% 35%, #d14930 0%, #aa2515 70%, #7d1005 100%);
+  box-shadow: 
+    inset 2px 2px 4px rgba(255,255,255,0.25),
+    inset -2px -2px 4px rgba(0,0,0,0.4),
+    0 4px 8px rgba(0,0,0,0.3);
+  border-radius: 50%;
+  position: relative;
+}
+
+.wax-seal::after {
+  content: '';
+  position: absolute;
+  top: 10%;
+  left: 10%;
+  right: 10%;
+  bottom: 10%;
+  border: 1.5px dashed rgba(255, 255, 255, 0.15);
+  border-radius: 50%;
+}
