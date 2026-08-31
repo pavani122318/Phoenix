@@ -119,7 +119,7 @@ export default function Home() {
                 Traditional Soul × Modern Tech
               </div>
               <h1 className="font-serif text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-phoenix-indigo leading-tight">
-                Some messages deserve more than <span className="text-terracotta-500 italic font-medium">a notification.</span>
+                Some messages deserve more than <span className="text-terracotta-500 italic font-medium">a notification.✨</span>
               </h1>
               <p className="text-base sm:text-lg text-parchment-800 leading-relaxed font-sans max-w-xl mx-auto md:mx-0">
                 Write it online. We&apos;ll turn your words into a real physical parchment letter, custom wax-sealed, and sent on an extraordinary pigeon flight or express journey.
