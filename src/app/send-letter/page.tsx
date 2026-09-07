@@ -308,7 +308,7 @@ export default function SendLetter() {
                 <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
                   {[
                     'Love ❤️', 'Birthday 🎂', 'Anniversary 💍', 'Friendship 🤝', 
-                    'Thank You 🙏', 'Congratulations 🎓', 'Apology 😔', 'Family  🏡',
+                    'Thank You 🙏', 'Congratulations 🥳', 'Apology 😔', 'Family  🏡',
                     'Long Distance ✈️', 'Festival 🪔', 'Just Because ✉️'
                   ].map((occ) => (
                     <button
